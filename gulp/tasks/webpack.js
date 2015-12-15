@@ -15,8 +15,15 @@ const logConfig = {
 
 gulp.task('webpack', (callback) => {
 	webpack(webpackConfig, (err, stats) => {
-		if(err)throw new PluginError('webpack', err)
+		if(err) throw new PluginError('webpack', err)
 		log('[webpack]', stats.toString(logConfig))
 		callback()
+	})
+})
+
+gulp.task('webpack:watch', () => {
+	webpack(Object.assign({}, webpackConfig, {watch: true}), (err, stats) => {
+		if(err) throw new PluginError('webpack', err)
+		log('[webpack]', stats.toString(logConfig))
 	})
 })
