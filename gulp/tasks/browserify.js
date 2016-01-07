@@ -25,8 +25,13 @@ gulp.task('browserify', () => {
 })
 
 gulp.task('browserify:watch', () => {
-	const b = watchify(browserify(options))
-		.on('update', () => bundle(b))
+	const cwd = process.cwd()
+	const b = watchify(browserify(options), {
+		ignoreWatch: [
+			'**/node_modules/**',
+			new RegExp(`^${cwd}/(?!src/js)..*`)
+		]
+	}).on('update', () => bundle(b))
 		.on('log', msg => log('[browserify]', msg))
 	return bundle(b)
 })
