@@ -6,7 +6,7 @@ import './gulp/tasks/browserify'
 
 gulp.task('default', ['webpack', 'postcss'])
 
-gulp.task('watch', ['default', 'webpack:watch'], () => {
+gulp.task('watch', ['default', 'browserify:watch'], () => {
 	gulp.watch('./src/css/**/*', ['postcss'])
 })
 
