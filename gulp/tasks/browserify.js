@@ -8,28 +8,29 @@ import browserify from 'browserify'
 import watchify from 'watchify'
 import babelify from 'babelify'
 
+
 const src = './src/js'
 const dist = './dist'
 const entry = 'index.js'
 
-const options = {
+const option = {
 	entries: [path.join(src, entry)],
 	transform: [babelify],
 	cache: {},
 	packageCache: {}
 }
 
+
 gulp.task('browserify', () => {
-	const b = browserify(options)
+	const b = browserify(option)
 	return bundle(b)
 })
 
 gulp.task('browserify:watch', () => {
-	const cwd = process.cwd()
-	const b = watchify(browserify(options), {
+	const b = watchify(browserify(option), {
 		ignoreWatch: [
 			'**/node_modules/**',
-			new RegExp(`^${cwd}/(?!src/js)..*`)
+			(str) => !(new RegExp(`^${path.resolve(process.cwd(), src)}.*`).test(str))
 		]
 	}).on('update', () => bundle(b))
 		.on('log', msg => log('[browserify]', msg))
